@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Subir video{% endblock title %}
+
+
+{% block styles %}
+    
+{% endblock styles %}
+    
+
+{% block contenido %}
+    <h1>Sube tu video <small>{{ user.username }}</small></h1>
+    <form action="" method="POST" enctype="multipart/form-data" id="form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" id="submit">Subir</button>
+    </form>
+{% endblock contenido %}
+
+
+{% block scripts %}
+    <script src="{% static 'scripts/uploads.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scripts/boostrap-uploadprogress.js' %}"> </script>
+{% endblock scripts %}

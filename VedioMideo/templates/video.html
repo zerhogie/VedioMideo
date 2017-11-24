@@ -1,0 +1,22 @@
+{% extends 'base.html' %} 
+
+{% block contenido %}
+    <article class="card text-white bg-info mb-3" style="max-width: 60rem;">
+        <div class="card-header">{{ video.title }}</div>
+        <figure>
+            <video width="100%" height="auto" preload="auto" controls='controls'>
+                    <source src="{{ video.video.url }}" type="video/mp4">
+                    Estos son los posibles errores:
+                    <ul>
+                        <li>Tu navegador no soporta mp4.</li>
+                        <li>Algo pasó durante el transcoding. </li>
+                    </ul>
+                    Lamentamos el inconveniente.
+                </video>
+        </figure>
+        <div class="card-body">
+            <h4 class="card-title">Por: {{ video.id_user.username }}</h4>
+            <p class="card-text">{{ video.sumary }}</p>
+        </div>
+    </article>
+{% endblock contenido %}

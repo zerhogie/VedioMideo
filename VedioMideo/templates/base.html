@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico"/>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/styles/css/2-col-portfolio.css" rel="stylesheet">
+    <link href="/static/styles/css/default.css" rel="stylesheet">
+    
+    {% block styles %}{% endblock styles %}
+      
+
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <figure>
+          <img src="/static/img/icon.png" alt="icono VM" >
+        </figure>
+        <a class="navbar-brand" href="#" id="site">VedioMideo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Inicio
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Acerca</a>
+            </li>
+            {% block iteMenu %}{% endblock iteMenu %}
+            {% if user.is_authenticated %} 
+              <li class="nav-item">
+                  <a class="nav-link" href="/subir">Subir Video</a>
+              </li>
+              <li class="nav-item dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>{{ user.username }}</button>
+                <ul class="dropdown-menu text-center" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "userprofiles:logout" %}"><span class="glyphicon glyphicon-lock"></span>Cerrar Sesión</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="modal" data-target="#registro" href="#">Registrarse</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="modal" data-target="#inicio" href="#">Iniciar Sesión</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <section class="container">
+
+      {% block contenido %}{% endblock contenido %}
+      
+    </section>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer id="footer" class="py-2 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; VedioMideo 2017</p>
+        <p class="m-0 text-center text-white"><small>Desarrollo de sistemas web - Enrique Rodríguez Castañeda </small></p>
+      </div>
+      <!-- /.container -->
+      {% block extraFooter %}{% endblock extraFooter %}
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    
+    {% block scripts %}{% endblock scripts %}
+      
+
+  </body>
+
+</html>
