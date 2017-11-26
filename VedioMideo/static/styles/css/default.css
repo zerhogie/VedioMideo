@@ -8,6 +8,20 @@ video {
     border-radius: 5px;
 }
 
+#busqueda {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#busqueda:first-child {
+    float: right;
+    width: 100%;
+}
+#buscador {
+    width: 93%;
+}
+
 #footer {
     position: fixed;
     bottom: 0;
@@ -21,6 +35,8 @@ video {
 
 .circulo{
     color: white;
+
+    background-color: #17a2b8;
     border: 1px solid #117a8b;
     text-align: center;
     font-size: 27pt;
@@ -28,7 +44,6 @@ video {
     width: 50px;
     height: 50px;
     margin-top: 5px;
-    background-color: #17a2b8;
     float: right;
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
@@ -41,6 +56,15 @@ video {
    border-color: #117a8b;
    color: whitesmoke;
    font-size: 26pt;
+}
+
+.revolviendo {
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(0,0);
+    -moz-transform: translate(0,0);
+    -ms-transform: translate(0,0);
+    -o-transform: translate(0,0);
 }
 
 .oculto {

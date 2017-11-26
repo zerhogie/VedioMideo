@@ -60,7 +60,7 @@
         },
 
         reset: function(){
-            this.$modal_title = this.$modal_title.text('Uploading');
+            this.$modal_title = this.$modal_title.text('Subiendo video...');
             this.$modal_footer.hide();
             this.$modal_bar.addClass('progress-bar-success');
             this.$modal_bar.removeClass('progress-bar-danger');

@@ -1,3 +1,3 @@
 $(function(){
-    $("#form").uploadprogress({redirect_url: '/'});
+    $("#form").uploadprogress({redirect_url: "/"});
 });

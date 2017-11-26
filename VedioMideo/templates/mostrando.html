@@ -1,0 +1,40 @@
+{% load tz %}
+{% if lista_videos %}
+<section id="videos_showed">
+    <!-- Videos -->
+    <div class="row">
+        {% for video in lista_videos %}
+        <div class="col-lg-4 col-md-6 portfolio-item">
+            <article class="card h-100">
+                <header class="card-header">
+                    {{ video.id_user.username }}
+                </header>
+                <figure>
+                    <a href="{% url 'userprofiles:video_details' video.pk %}">
+                        <img class="img img-responsive" style="width:100%" src="{{ video.thumbnail.url }}" alt="{{ video.title }}">
+                    </a>
+                    </video>
+                </figure>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <!-- Contribución de Osvaldo -->
+                        <a href="{% url 'userprofiles:video_details' video.pk %}">{{ video.title }}</a>
+                        <!-- - - - - - - - - - - - - -->
+                    </h4>
+                    <p class="card-text">{{ video.sumary }}</p>
+                </div>
+                <footer class="card-footer text-muted">
+                    Subido el {{ video.date|localtime|date:'Y-m-d \a \l\a\s H:i' }}hrs
+                </footer>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- /.row -->
+</section>
+{% else %}
+<!-- No videos -->
+    <article class="text-center" style="margin-top:10em">
+            <p><strong class="text-center">No hay videos disponibles</strong></p>
+    </article>
+{% endif %}

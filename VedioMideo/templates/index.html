@@ -4,12 +4,15 @@
 {% block title %}Inicio{% endblock title %}
     
 {% block contenido %}
-
-    {% if videos_by_date %}
-        <section id="videos_showed">
+    {% if object_list %}
+        <section id="busqueda" class="form-inline">
+            <input id="buscador" class="form-control" type="text" placeholder="Buscar...">
+            <button id="btnBuscar" class="btn btn-dark"><span class="glyphicon glyphicon-search"></span></button>            
+        </section>
+        <section id="videos_mostrados">
             <!-- Videos -->
             <div class="row">
-                {% for video in videos_by_date %}
+                {% for video in object_list %}
                 <div class="col-lg-4 col-md-6 portfolio-item">
                     <article class="card h-100">
                         <header class="card-header">
@@ -45,78 +48,25 @@
             </article>
     {% endif %}
 
-    <!-- Modal de inicio de sesión -->
-    <div class="modal fade" id="inicio" role="dialog">
-        <div class="modal-dialog modal-lg">
-        
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Iniciar Sesión</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="inicio">
-
-                        <input type="text" name="username">
-                        <input type="password" name="password">
-
-                        <button type="submit" class="btn-primary">Iniciar Sesión</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="modal fade" id="registro" role="dialog">
-        <div class="modal-dialog modal-lg">
-        
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Registro</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="action" value="registro">
-
-                        <input type="text" name="username" placeholder="usuario">
-                        <input type="password" name="password" placeholder="contraseña">
-                        <input type="email" name="email" placeholder="email">
-
-                        <button type="submit" class="btn-primary">Registro</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 {% endblock contenido %}
 
 {% block extraFooter %}
     <div class="sorter">
-        <div class="circulo oculto" id="date"><span id="date" class="glyphicon glyphicon-calendar"></span></div>
-        <div class="circulo oculto" id="views"><span id="date" class="glyphicon glyphicon-eye-open"></span></div>
-        <div class="circulo oculto" id="searched"><span id="date" class="glyphicon glyphicon-search"></span></div>        
-        <div class="circulo" id="sorter"><span class="glyphicon glyphicon-sort-by-attributes"></span></div> 
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="ordenar">
+            <div class="circulo oculto" title="recientes"><span id="date" class="glyphicon glyphicon-calendar"></span></div>
+            <div class="circulo oculto" title="vistos"><span id="views" class="glyphicon glyphicon-eye-open"></span></div>
+            <div class="circulo oculto" title="buscados"><span id="searched" class="glyphicon glyphicon-search"></span></div>        
+            <div class="circulo" id="sorter" title="oredenar por..."><span class="glyphicon glyphicon-sort-by-attributes"></span></div> 
+        </form>
     </div>
 {% endblock extraFooter %}
 
 
 {% block scripts %}
     <script src="/static/scripts/sorter.js"></script>
-    <script>
-        $(function(){
-            console.log('{{ lista_videos }}');
-        });
-    </script>
+    <script src="/static/scripts/busca.js"></script>
 {% endblock scripts %}
     
