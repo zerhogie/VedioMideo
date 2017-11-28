@@ -10,9 +10,11 @@ from django.utils.http import unquote, unquote_plus
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from itertools import chain
+from io import StringIO
+from lxml import etree
 from time import sleep
-import os
 import datetime
+import os
 import subprocess
 
 from .models import Video
@@ -28,22 +30,28 @@ from .forms import VideoForm
 #    }
 #    return render(request, 'video.html', context)
 
-def busqueda(request):
-    query = request.GET.get('q', '')
-    if query:
-        qset = (
-            Q(title__icontains=query) |
-            Q(sumary__icontains=query) |
-            Q(id_user__username__icontains=query)
-        )
-        results = Video.objects.filter(qset).distinct()
-    else:
-        results = []
-    return render_to_response("search.html" ,{
-        "results": results,
-        "query": query
-    })
-    
+def addusers(request):
+
+    return redirect('/')
+
+def is_validXML_user(xml):
+    xsd = '/static/scripts/users.xsd'
+    xml
+
+    treexsd = etree.parse(xsd)
+    treexml = etree.parse(xml)
+    xsdCad = etree.tostring(treexsd, pretty_print=True, encoding='utf-8')
+    xmlCad = etree.tostring(treexml, pretty_print=True, encoding='utf-8')
+    decXSD = xsdCad.decode("utf-8")
+    decXML = xmlCad.decode("utf-8")
+
+    f = StringIO(decXSD)
+    xmlschema_doc = etree.parse(f)
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+
+    validar = StringIO(decXML)
+    xmlSimple_doc = etree.parse(validar)
+    return xmlschema.validate(xmlSimple_doc)
 
 def extraer_thumbnail(video):
     img_name = os.path.basename(unquote(video.video.url).replace(' ', '_')).split('.')[0]+'.jpg'
@@ -108,6 +116,9 @@ def mostrar(request, orden):
         return HttpResponse(template.render({'lista_videos': ordenados}, request))
     else:
         porTitulo = Video.objects.filter(title__icontains=orden)
+        for video in porTitulo:
+            video.searched += 1
+            video.save()
         print('AQUI!!!:  -->>',orden)
         #buscados = list(chain(porTitulo, article_list, post_list))
         template = loader.get_template("mostrando.html")

@@ -52,7 +52,11 @@
                 <button class="btn btn-info dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user"></span>{{ user.username }}</button>
                 <ul class="dropdown-menu text-center" role="menu" aria-labelledby="menu1">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "userprofiles:logout" %}"><span class="glyphicon glyphicon-lock"></span>Cerrar Sesión</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "userprofiles:logout" %}"><span class="glyphicon glyphicon-lock"></span>Cerrar Sesión</a></li>
+                 {% if user.is_superuser %}
+                  <li class="divider"></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "userprofiles:addusers" %}"><span class="glyphicon glyphicon-plus"></span>Agregar usuarios</a></li>
+                 {% endif %}
                 </ul>
               </li>
             {% else %}

@@ -9,14 +9,7 @@ $(function(){
 
     $('#date,#searched,#views').each(function(){
        $(this).click(function(ev){
-            $("#videos_mostrados").load('/mostrando/'+ev.target.id, function(response, stats){
-                if(stats == "success") {
-                    console.log("Cambio realizado");
-                }
-                if(stats == "error") {
-                    console.log("Error al desplegar los datos");
-                }
-            });
+            $("#videos_mostrados").load('/mostrando/'+ev.target.id);
        });
     });
 
@@ -29,7 +22,6 @@ $(function(){
             $.style(e, 'transform', 'rotate(' + now + 'deg)');
             if (step) return step.apply(e, arguments);
             };
-        
             $({deg: 0}).animate({deg: angle}, args);
         });
     };
