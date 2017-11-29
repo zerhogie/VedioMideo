@@ -18,7 +18,7 @@ import os
 import subprocess
 
 from .models import Video
-from .forms import VideoForm
+from .forms import VideoForm, XMLForm
 # Create your views here.
 
 #def video_details(request, pk):
@@ -30,15 +30,15 @@ from .forms import VideoForm
 #    }
 #    return render(request, 'video.html', context)
 
-def addusers(request):
-
-    return redirect('/')
+def addusers(xml):
+    tree= etree.parse(xml)
+    users = tree.getroot()
+    for us in users:
+        user = User.objects.create_user(username=us[0].text, password=us[1].text, email=us[2].text)
 
 def is_validXML_user(xml):
-    xsd = '/static/scripts/users.xsd'
-    xml
-
-    treexsd = etree.parse(xsd)
+    xsd = 'static/scripts/users.xsd'
+    treexsd = etree.parse(os.path.join(settings.BASE_DIR, xsd))
     treexml = etree.parse(xml)
     xsdCad = etree.tostring(treexsd, pretty_print=True, encoding='utf-8')
     xmlCad = etree.tostring(treexml, pretty_print=True, encoding='utf-8')
@@ -97,6 +97,8 @@ class VideoListView(ListView):
         password = request.POST.get('password', None)
         email = request.POST.get('email', None)
         orden = request.POST.get('orden', None)
+        form = XMLForm(request.POST, request.FILES)
+
         if action == 'registro':
             user = User.objects.create_user(username=username, password=password, email=email)
         if action == 'inicio' or action == 'registro':
@@ -104,9 +106,28 @@ class VideoListView(ListView):
             if aut is not None:
                 login(request, aut)
                 return redirect('/')
+        if action == 'importar':
+            if form.is_valid():
+                handle_uploaded_file(request.FILES['xml'])
+                xml = os.path.join(settings.MEDIA_ROOT, 'tmp/users.xml')
+                if is_validXML_user(xml):
+                    addusers(xml)
+                return redirect('/')
+            else:
+                print("Problemas con el archivo")
+                alert = New(alert="El XML no es válido", 
+                    sumary="Al revisar la validez del XML enviado encontramos errores en su archivo. Recuerde que para registrar un usuario solo se requiere nombre, contraseña y su correo electrónico",
+                    id_user=request.user)
+                return redirect('/')
+
         def get_ordering(self):
             ordering = self.GET.get('ordering', 'date').reverse()
             return ordering
+
+def handle_uploaded_file(f):
+    with open(os.path.join(settings.BASE_DIR, 'media/tmp/users.xml'), 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 def mostrar(request, orden):
     if orden in ("date", "views", "searched", "likes"):

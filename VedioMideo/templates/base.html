@@ -5,8 +5,8 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Página para subir y disfrutar de videos en la web">
+    <meta name="author" content="Enrique Rodríguez Castañeda">
 
     <title>{% block title %}{% endblock title %}</title>
     <link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico"/>
@@ -55,7 +55,7 @@
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "userprofiles:logout" %}"><span class="glyphicon glyphicon-lock"></span>Cerrar Sesión</a></li>
                  {% if user.is_superuser %}
                   <li class="divider"></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url "userprofiles:addusers" %}"><span class="glyphicon glyphicon-plus"></span>Agregar usuarios</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#importar" href="#"><span class="glyphicon glyphicon-plus"></span>Agregar usuarios</a></li>
                  {% endif %}
                 </ul>
               </li>
@@ -128,6 +128,35 @@
             </div>
         </div>
     </div>
+
+    {% if user.is_superuser %}
+      <!-- Modal de subir archivo xml -->
+      <div class="modal fade" id="importar" role="dialog">
+        <div class="modal-dialog modal-lg">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Importar usuarios vía XML</h4>
+            </div>
+            <div class="modal-body">
+              <form action="" method="post" class="text-center" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="importar">
+                <input type="file"  class="form-control" name="xml">
+                <p></p>
+                <input type="password" class="form-control" name="password" placeholder="Confirma con tu contraseña">
+                <p></p>
+                <button type="submit" class="btn-warning">Importar</button>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      
+  </div>
       {% block contenido %}{% endblock contenido %}
       
     </section>

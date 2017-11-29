@@ -15,3 +15,7 @@ class VideoForm(forms.ModelForm):
                 'max_length': "El nombre es demasiado largo",
             },
         }
+
+class XMLForm(forms.Form):
+   xml = forms.FileField()
+   password = forms.CharField(max_length=64)

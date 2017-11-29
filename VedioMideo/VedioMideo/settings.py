@@ -25,7 +25,7 @@ SECRET_KEY = 'q$d+h^1&pu3@hfj^(h@#^h!2gt(r+k9qm4lzpt#qd4429+dkty'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.100.11', '127.0.0.1', '192.168.43.219']
 
 
 # Application definition
@@ -117,8 +117,6 @@ USE_TZ = True
 LOGIN_URL = '/'
 
 LOGIN_REDIRECT_URL = '/'
-
-ALLOWED_HOSTS = ['192.168.100.11', '127.0.0.1', '192.168.43.219']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

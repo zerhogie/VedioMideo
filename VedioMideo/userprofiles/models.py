@@ -7,7 +7,7 @@ import datetime
 class New(models.Model):
     alert = models.CharField(max_length=45)
     sumary = models.CharField(max_length= 45)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     id_user = models.ForeignKey(User)
 
     def __str__(self):
