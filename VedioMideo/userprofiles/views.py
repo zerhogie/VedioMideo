@@ -62,6 +62,16 @@ def extraer_thumbnail(video):
     subprocess.call(['ffmpeg', '-i', os.path.join(settings.BASE_DIR, 'media/videos/' + date_url)+os.path.basename(unquote(video.video.url).replace(' ', '_')), '-ss', '00:00:00.000', '-vframes', '1', img_ruta+img_name, '-y'])
     return 'img/'+date_url+img_name
 
+def transcoding(video):
+    print("Iniciando transcoding...")
+    original = os.path.basename(unquote(video.video.url).replace(' ', '_'))
+    date_url = str(datetime.datetime.now().year) + '/' + str(datetime.datetime.now().month) + '/'
+    convertido = original.split('.')[0]+'.mp4'
+    ruta = os.path.join(settings.BASE_DIR, 'media/videos/') + date_url
+    subprocess.call(['ffmpeg', '-i', ruta + original, ruta + convertido,],)
+    os.remove(ruta + original)
+    return ruta + convertido
+
 @login_required
 def subir(request):
     if request.method == 'POST':
