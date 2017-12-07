@@ -11,12 +11,31 @@
     
 
 {% block contenido %}
-    <h1>Sube tu video <small>{{ user.username }}</small></h1>
+    <article id="formulario">
+        <h1>Sube tu video <small>{{ user.username }}</small></h1>
+        <form action="" method="POST" enctype="multipart/form-data" id="form">
+            {% csrf_token %}
+            
+            <input type="hidden" name="action" value="subir">
+            
+            <p><label for="id_title">Título:</label> 
+            <input type="text" class="form-control" name="title" maxlength="45" required="" id="id_title"></p>
+            
+            <p><label for="id_sumary">Resumen:</label> 
+            <input type="text" class="form-control" name="sumary" maxlength="255" required="" id="id_sumary"></p>
+            
+            <p><label for="id_video">Video:</label> 
+            <input type="file" class="form-control" name="video" required="" id="id_video"></p>
+        
+            <p><button class="btn btn-primary" type="submit" id="submit">Subir</button></p>
+        </form>
+    </article>
+    <!--<h1>Sube tu video <small>{{ user.username }}</small></h1>
     <form action="" method="POST" enctype="multipart/form-data" id="form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" id="submit">Subir</button>
-    </form>
+    </form>-->
 {% endblock contenido %}
 
 

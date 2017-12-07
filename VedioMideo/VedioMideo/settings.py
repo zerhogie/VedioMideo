@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.100.11', '127.0.0.1', '192.168.43.219']
 
+USE_ETAGS = True
 
 # Application definition
 
@@ -77,8 +78,12 @@ WSGI_APPLICATION = 'VedioMideo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'vediomideo',
+        'USER': 'vediomideo',
+        'PASSWORD': 'vediomideo',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
@@ -117,6 +122,8 @@ USE_TZ = True
 LOGIN_URL = '/'
 
 LOGIN_REDIRECT_URL = '/'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

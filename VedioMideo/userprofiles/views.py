@@ -17,7 +17,7 @@ import datetime
 import os
 import subprocess
 
-from .models import Video
+from .models import Video, New
 from .forms import VideoForm, XMLForm
 # Create your views here.
 
@@ -113,9 +113,12 @@ class VideoListView(ListView):
             if form.is_valid():
                 handle_uploaded_file(request.FILES['xml'])
                 xml = os.path.join(settings.MEDIA_ROOT, 'tmp/users.xml')
-                if is_validXML_user(xml):
-                    addusers(xml)
-                return redirect('/')
+                if form.password == request.user.password:
+                    if is_validXML_user(xml):
+                        addusers(xml)
+                    return redirect('/')
+                else:
+                    return HttpResponse("No fue válida la autenticación, no puedes subir archivos!<p></p> <a href='/' class='btn btn-info'>Regresar</a>")
             else:
                 print("Problemas con el archivo")
                 alert = New(alert="El XML no es válido", 
@@ -157,13 +160,3 @@ class VideoDetailView(DetailView):
         video.views += 1 
         video.save()
         return video # Retorna el objeto
-
-def transcoding(video):
-    print("Iniciando transcoding...")
-    original = os.path.basename(unquote(video.video.url).replace(' ', '_'))
-    date_url = str(datetime.datetime.now().year) + '/' + str(datetime.datetime.now().month) + '/'
-    convertido = original.split('.')[0]+'.mp4'
-    ruta = os.path.join(settings.BASE_DIR, 'media/videos/') + date_url
-    subprocess.call(['ffmpeg', '-i', ruta + original, ruta + convertido,],)
-    os.remove(ruta + original)
-    return ruta + convertido
