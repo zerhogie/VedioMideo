@@ -69,6 +69,9 @@ def subir(request):
         if form.is_valid():
             video = form.save(commit=False)
             video.id_user = request.user
+            video.save()
+            if not video.video.url.endswith(".mp4"):
+                video.video = transcoding(video)
             video.thumbnail = extraer_thumbnail(video)
             video.save()
     else:
@@ -154,3 +157,13 @@ class VideoDetailView(DetailView):
         video.views += 1 
         video.save()
         return video # Retorna el objeto
+
+def transcoding(video):
+    print("Iniciando transcoding...")
+    original = os.path.basename(unquote(video.video.url).replace(' ', '_'))
+    date_url = str(datetime.datetime.now().year) + '/' + str(datetime.datetime.now().month) + '/'
+    convertido = original.split('.')[0]+'.mp4'
+    ruta = os.path.join(settings.BASE_DIR, 'media/videos/') + date_url
+    subprocess.call(['ffmpeg', '-i', ruta + original, ruta + convertido,],)
+    os.remove(ruta + original)
+    return ruta + convertido
